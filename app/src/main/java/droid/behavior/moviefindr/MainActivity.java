@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class MainActivity extends ActionBarActivity {
     public static final String EXTRA_MESSAGE = "droid.behavior.moviefindr.MESSAGE";
     private Button searchButton;
-    ProgressDialog dialogue;
+    private ProgressDialog dialogue;
 
 
     @Override
@@ -68,15 +68,6 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    public void sendMessage(View view)
-    {
-        Intent intent = new Intent(this, DisplayMessageActivity.class);
-        EditText editText = (EditText) findViewById(R.id.edit_message);
-        String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
-    }
-
     private class SearchTask extends AsyncTask<Void, Void, ArrayList<Movie>> {
 
         @Override
@@ -95,36 +86,41 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected ArrayList<Movie> doInBackground(Void... params) {
-            HTTPUtil service = new HTTPUtil();
-            EditText editText = (EditText) findViewById(R.id.edit_message);
-            String message = editText.getText().toString();
-            String json = service.getJSON(message);
-            ParseJSON parse = new ParseJSON();
+            final HTTPUtil service = new HTTPUtil();
+            final EditText editText = (EditText) findViewById(R.id.edit_message);
+            final String message = editText.getText().toString();
+            final String json = service.getJSON(message);
+            final ParseJSON parse = new ParseJSON();
             return parse.parseJson(json);
         }
 
         @Override
         protected void onPostExecute(ArrayList<Movie> result) {
             super.onPostExecute(result);
-            try {
-                if (null != dialogue && dialogue.isShowing()) {
+            try
+            {
+                if (null != dialogue && dialogue.isShowing())
+                {
                     dialogue.dismiss();
                     dialogue = null;
                 }
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 e.printStackTrace();
             }
 
-            if (result != null) {
+            if (result != null)
+            {
             // start activity with result
                 Log.e("doInBackground", result.toString());
 
-                Intent intent = new Intent(getApplicationContext(), DisplayMessageActivity.class);
+                final Intent intent = new Intent(getApplicationContext(), DisplayMoviesActivity.class);
                 intent.putParcelableArrayListExtra("movies", result);
                 startActivity(intent);
 
-            } else {
-            Log.e("doInBackground", "No results found");
+            } else
+            {
+               Log.e("doInBackground", "No results found");
             }
         }
 

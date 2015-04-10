@@ -11,23 +11,46 @@ import java.io.Serializable;
 public class Movie implements Parcelable, Serializable {
     private static final long serialVersionUID = 1L;
 
-    public String id;
-    public String title;
-    public String backdrop_path;
-    public String poster_path;
-    public String results;
+    private String id;
+    private String title;
+    private String vote_average;
+    private String vote_count;
+    private String backdrop_path;
+    private String poster_path;
+
+    public String getVote_average() {
+        return vote_average;
+    }
+
+    public void setVote_average(String vote_average) {
+        this.vote_average = vote_average;
+    }
+
+    public String getVote_count() {
+        return vote_count;
+    }
+
+    public void setVote_count(String vote_count) {
+        this.vote_count = vote_count;
+    }
 
     public Movie(){}
 
     public Movie(Parcel in) {
+        this.id = in.readString();
         this.title = in.readString();
+        this.vote_average = in.readString();
+        this.vote_count = in.readString();
         this.backdrop_path = in.readString();
         this.poster_path = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(title);
+        dest.writeString(vote_average);
+        dest.writeString(vote_count);
         dest.writeString(backdrop_path);
         dest.writeString(poster_path);
     }
@@ -73,13 +96,6 @@ public class Movie implements Parcelable, Serializable {
         this.poster_path = poster_path;
     }
 
-    public String getResults() {
-        return results;
-    }
-
-    public void setResults(String results) {
-        this.results = results;
-    }
 
     @Override
     public int describeContents() {
@@ -89,8 +105,9 @@ public class Movie implements Parcelable, Serializable {
         return CREATOR;
     }
 
-    @Override
     public String toString() {
-        return "Movie [title=" + title + "]";
+        return "Movie [title=" + title + "\n " + "id=" + id + "\n " + "vote_avg=" + vote_average + " \n" +
+                "vote_count=" + vote_count + " \n" + "backdrop=" + backdrop_path + "\n " + "posterpath=" + poster_path +
+        "]";
     }
 }

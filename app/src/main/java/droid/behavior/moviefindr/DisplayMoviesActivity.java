@@ -15,7 +15,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 
-public class DisplayMessageActivity extends ActionBarActivity {
+public class DisplayMoviesActivity extends ActionBarActivity {
     private static final String URL= "http://www.omdbapi.com/?";
     private static final String POSTERAPIREQUEST = "http://img.omdbapi.com?apikey=[eee89624]&";
     @Override
